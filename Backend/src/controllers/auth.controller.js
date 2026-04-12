@@ -21,13 +21,13 @@ async function sendTokenResponse(user, res, message) {
             contact: user.contact,
             fullname: user.fullname,
             role: user.role
-
+            
         }
     })
 }
 
 export const register = async (req, res) => {
-    const { email, contact, password, fullname } = req.body;
+    const { email, contact, password, fullname, isSeller } = req.body;
 
     try {
         const existingUser = await userModel.findOne({
