@@ -1,7 +1,7 @@
 import { config } from "../config/config.js";
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken"
- 
+import bcrypt from "bcryptjs";
 
 async function sendTokenResponse(user, res, message) {
     const token = jwt.sign({
@@ -10,7 +10,12 @@ async function sendTokenResponse(user, res, message) {
         { expiresIn: "7d" })
 
 
-    res.cookies("token", token)
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in ms
+    });
 
     res.status(200).json({
         message,
@@ -21,19 +26,20 @@ async function sendTokenResponse(user, res, message) {
             contact: user.contact,
             fullname: user.fullname,
             role: user.role
-            
+
         }
     })
 }
 
 export const register = async (req, res) => {
-    const { email, contact, password, fullname, isSeller } = req.body;
-
+    console.log("Received body:", req.body);
+    const { email, contactNumber, password, fullname, isSeller } = req.body;
+    
     try {
         const existingUser = await userModel.findOne({
             $or: [
                 { email },
-                { contact }
+                { contactNumber },
             ]
         })
 
@@ -44,13 +50,13 @@ export const register = async (req, res) => {
 
         const user = await userModel.create({
             email,
-            contact,
+            contactNumber,
             password: hashedPassword,
             fullname,
             role: isSeller ? "seller" : "buyer"
         })
 
-        await sendTokenResponse(user, res, "User register successfully")
+        sendTokenResponse(user, res, "User register successfully")
 
     } catch (error) {
         console.log(error)
