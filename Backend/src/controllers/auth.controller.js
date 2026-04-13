@@ -1,7 +1,7 @@
 import { config } from "../config/config.js";
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken"
-import bcrypt from "bcryptjs";
+
 
 async function sendTokenResponse(user, res, message) {
     const token = jwt.sign({
@@ -23,7 +23,7 @@ async function sendTokenResponse(user, res, message) {
         user: {
             id: user._id,
             email: user.email,
-            contact: user.contact,
+            contactNumber: user.contactNumber,
             fullname: user.fullname,
             role: user.role
 
@@ -46,12 +46,12 @@ export const register = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: "User with this email and contact already exists" })
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
+        
 
         const user = await userModel.create({
             email,
             contactNumber,
-            password: hashedPassword,
+            password,
             fullname,
             role: isSeller ? "seller" : "buyer"
         })
