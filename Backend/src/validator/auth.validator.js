@@ -14,9 +14,9 @@ function validateRequest(req, res, next) {
 export const validateRegisterUser = [
     body("email")
         .isEmail().withMessage("Invalid email format"),
-    // body("contact")
-    //     .notEmpty().withMessage("Contact is required")
-    //     .isLength({min:10, max:10}).withMessage("contact must be a 10-digit number"),
+    body("contactNumber")
+        .notEmpty().withMessage("Contact is required")
+        .isLength({min:10, max:10}).withMessage("contact must be a 10-digit number"),
     body("password")
         .isLength({ min: 6 }).withMessage("Password must be a 6 character long"),
     body("fullname")
@@ -26,4 +26,12 @@ export const validateRegisterUser = [
         .isBoolean().withMessage("is Seller must be a boolean =value"),
         
         validateRequest
+]
+
+export const validateLoginUser = [
+    body("email")
+        .isEmail().withMessage("Invalid email format"),
+    body("password")
+        .notEmpty().withMessage("Password is required"),
+    validateRequest
 ]

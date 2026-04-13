@@ -35,7 +35,7 @@ const Register = () => {
             isSeller: formData.isSeller,
             fullname: formData.fullName
         })
-        console.log("Sending:", res);
+        
         navigate("/")
     };
 

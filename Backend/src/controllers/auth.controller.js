@@ -34,7 +34,7 @@ async function sendTokenResponse(user, res, message) {
 export const register = async (req, res) => {
     console.log("Received body:", req.body);
     const { email, contactNumber, password, fullname, isSeller } = req.body;
-    
+
     try {
         const existingUser = await userModel.findOne({
             $or: [
@@ -46,7 +46,7 @@ export const register = async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: "User with this email and contact already exists" })
         }
-        
+
 
         const user = await userModel.create({
             email,
@@ -62,4 +62,22 @@ export const register = async (req, res) => {
         console.log(error)
         return res.status(500).json({ message: "Server error" });
     }
+}
+
+export const login = async (req, res) => {
+
+    const { email, password } = req.body;
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+        return res.status(400).json({ message: "User not found" })
+    }
+
+    const isMatch = await user.comparePassword(password)
+
+    if (!isMatch) {
+        return res.status(400).json({ message: "Invalid email or password" })
+    }
+
+    await sendTokenResponse(user, res, "User logged in successfully")
 }
