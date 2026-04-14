@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useAuth } from "../hook/useAuth"
 import { useNavigate } from "react-router"
+import ContinueWithGoogle from "../components/ContinueWithGoogle"
 
 
 const Register = () => {
@@ -20,7 +21,7 @@ const Register = () => {
         console.log(formData)
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
-            
+
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
@@ -35,7 +36,7 @@ const Register = () => {
             isSeller: formData.isSeller,
             fullname: formData.fullName
         })
-        
+
         navigate("/")
     };
 
@@ -146,11 +147,7 @@ const Register = () => {
                             </div>
                             <label htmlFor="isSeller" className="text-xs sm:text-sm text-[#e5e2e1] group-hover:text-[#FFD700] cursor-pointer select-none transition-colors duration-300">Register as Seller</label>
                         </div>
-                              <a href="/api/auth/google"
-                                                              className="w-full bg-gradient-to-r text-center from-[#e9c400] to-[#ffd700] text-[#131313] font-bold tracking-wide py-3 sm:py-4 px-6 sm:px-8 rounded text-sm sm:text-base hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex-shrink-0">
 
-                              continue with google
-                              </a>
                         {/* Submit Button - Fixed position at bottom */}
                         <div className="mt-auto flex flex-col gap-3 sm:gap-4 pt-2 sm:pt-4">
                             <button
@@ -159,7 +156,7 @@ const Register = () => {
                             >
                                 Sign Up
                             </button>
-
+                              <ContinueWithGoogle />
                             <div className="text-center flex-shrink-0">
                                 <a href="/login" className="text-xs sm:text-sm text-[#999077] hover:text-[#FFD700] transition-colors border-b border-transparent hover:border-[#FFD700] py-0.5 block">
                                     Already have an account? Sign in
