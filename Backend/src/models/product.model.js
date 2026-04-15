@@ -12,7 +12,7 @@ const productSchema = new mongoose.Schema({
     },
     seller: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: user,
+        ref: "user",
         required: true
     },
     price: {
@@ -37,6 +37,7 @@ const productSchema = new mongoose.Schema({
     ]
 }, {timestamps: true})
 
-const productModel = mongoose.Model("product", productModel)
+const productModel = mongoose.model("product", productSchema)
+
 
 export default productModel
