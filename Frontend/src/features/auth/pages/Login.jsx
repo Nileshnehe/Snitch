@@ -12,25 +12,37 @@ const Login = () => {
     const { handleLogin } = useAuth();
     const navigate = useNavigate();
 
-    const [ formData, setFormData ] = useState({
+    const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [ name ]: value }));
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const user = await handleLogin({ email: formData.email, password: formData.password });
+            const user = await handleLogin({
+                email: formData.email,
+                password: formData.password
+            });
+
+            // console.log("USER:", user);
+
+            
+
             if (user.role == "buyer") {
                 navigate("/");
             } else if (user.role == "seller") {
                 navigate("/seller/dashboard");
             }
+
         } catch (error) {
             console.error("Login failed", error);
         }
