@@ -6,7 +6,7 @@ import { useProduct } from '../hook/useProduct';
 
 const CURRENCIES = ['INR', 'USD', 'EUR', 'GBP'];
 const MAX_IMAGES = 7;
-
+ 
 const CreateProduct = () => {
     const { handleCreateProduct } = useProduct();
     const navigate = useNavigate();

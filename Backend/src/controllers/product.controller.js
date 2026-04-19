@@ -2,36 +2,52 @@ import productModel from "../models/product.model.js"
 import { uploadFile } from "../services/storage.service.js";
 
 
+
+
 export const createProduct = async (req, res) => {
-    const { title, description, priceAmount, priceCurrency } = req.body
-    const seller = req.user;
+    try {
+        const { title, description, priceAmount, priceCurrency } = req.body;
 
-    const images = await Promise.all(req.files.map(async (file) => {
-        return await uploadFile({
-            buffer: file.buffer,
-            fileName: file.originalname
-        })
-    }))
+        if (!req.user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
 
-    const product = await productModel.create({
-        title,
-        description,
-        price: {
-            amount: priceAmount,
-            currency: priceCurrency || "INR"
-        },
-        images,
-        seller: seller._id
-    })
+        if (!req.files || req.files.length === 0) {
+            return res.status(400).json({ message: "No files uploaded" });
+        }
 
+        const images = await Promise.all(req.files.map(async (file) => {
+            return await uploadFile({
+                buffer: file.buffer,
+                fileName: file.originalname
+            });
+        }));
 
-    res.status(201).json({
-        message: "Product created successfully",
-        success: true,
-        product
-    })
-}
+        const product = await productModel.create({
+            title,
+            description,
+            price: {
+                amount: Number(priceAmount),
+                currency: priceCurrency || "INR"
+            },
+            images,
+            seller: req.user._id
+        });
 
+        res.status(201).json({
+            message: "Product created successfully",
+            success: true,
+            product
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error.message
+        });
+    }
+};
 
 export async function getSellerProducts(req, res) {
     const seller = req.user;
