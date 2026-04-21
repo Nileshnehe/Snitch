@@ -4,9 +4,13 @@ import { useDispatch } from "react-redux"
 
 
 export const useAuth = () => {
+
     const dispatch = useDispatch()
-    async function handleRegister({ email, password, contactNumber, fullname, isSeller = false }) {
-        const data = await register({ email, password, contactNumber, fullname, isSeller })
+
+    async function handleRegister({ email, contactNumber, password, fullName, isSeller = false }) {
+        console.log("handleRegister received:", { email, contactNumber, password, fullName, isSeller })
+        const data = await register({ email, contactNumber, password, fullName, isSeller })
+
         dispatch(setUser(data.user))
 
         return data.user
@@ -30,6 +34,6 @@ export const useAuth = () => {
         }
 
     }
-    
+
     return { handleRegister, handleLogin, handleGetMe }
 }

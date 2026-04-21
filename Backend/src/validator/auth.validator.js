@@ -16,16 +16,16 @@ export const validateRegisterUser = [
         .isEmail().withMessage("Invalid email format"),
     body("contactNumber")
         .notEmpty().withMessage("Contact is required")
-        .isLength({min:10, max:10}).withMessage("contact must be a 10-digit number"),
+        .isLength({ min: 10, max: 10 }).withMessage("contact must be a 10-digit number"),
     body("password")
         .isLength({ min: 6 }).withMessage("Password must be a 6 character long"),
-    body("fullname")
+    body("fullName")
         .notEmpty().withMessage("Full name is required")
         .isLength({ min: 3 }).withMessage("full name must be at least 3 character long"),
     body("isSeller")
         .isBoolean().withMessage("is Seller must be a boolean =value"),
-        
-        validateRequest
+
+    validateRequest
 ]
 
 export const validateLoginUser = [

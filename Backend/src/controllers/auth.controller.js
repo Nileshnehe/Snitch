@@ -14,7 +14,7 @@ async function sendTokenResponse(user, res, message) {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000 
+        maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
     res.status(200).json({
@@ -24,7 +24,7 @@ async function sendTokenResponse(user, res, message) {
             id: user._id,
             email: user.email,
             contactNumber: user.contactNumber,
-            fullname: user.fullname,
+            fullName: user.fullName,
             role: user.role
 
         }
@@ -33,7 +33,7 @@ async function sendTokenResponse(user, res, message) {
 
 export const register = async (req, res) => {
     console.log("Received body:", req.body);
-    const { email, contactNumber, password, fullname, isSeller } = req.body;
+    const { email, contactNumber, password, fullName, isSeller } = req.body;
 
     try {
         const existingUser = await userModel.findOne({
@@ -52,7 +52,7 @@ export const register = async (req, res) => {
             email,
             contactNumber,
             password,
-            fullname,
+            fullName,
             role: isSeller ? "seller" : "buyer"
         })
 
@@ -95,7 +95,7 @@ export const googleCallback = async (req, res) => {
         user = await userModel.create({
             email,
             googleId: id,
-            fullname: displayName
+            fullName: displayName
         })
     }
     const token = jwt.sign({
@@ -119,8 +119,8 @@ export const getMe = async (req, res) => {
         user: {
             id: user._id,
             email: user.email,
-            contact: user.contact,
-            fullname: user.fullname,
+            contactNumber: user.contactNumber,
+            fullname: user.fullName,
             role: user.role
         }
     })

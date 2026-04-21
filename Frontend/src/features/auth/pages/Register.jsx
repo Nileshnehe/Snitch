@@ -30,13 +30,14 @@ const Register = () => {
         e.preventDefault();
         await handleRegister({
             email: formData.email,
-            contact: formData.contactNumber,
+            contactNumber: formData.contactNumber,
             password: formData.password,
             isSeller: formData.isSeller,
-            fullname: formData.fullName
+            fullName: formData.fullName
         });
         navigate("/");
     };
+    console.log("FORM DATA:", formData)
 
     const inputStyle = {
         color: '#1b1c1a',
