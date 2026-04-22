@@ -8,7 +8,8 @@ export const useAuth = () => {
     const dispatch = useDispatch()
 
     async function handleRegister({ email, contactNumber, password, fullName, isSeller = false }) {
-        console.log("handleRegister received:", { email, contactNumber, password, fullName, isSeller })
+        
+        // console.log("handleRegister received:", { email, contactNumber, password, fullName, isSeller })
         const data = await register({ email, contactNumber, password, fullName, isSeller })
 
         dispatch(setUser(data.user))

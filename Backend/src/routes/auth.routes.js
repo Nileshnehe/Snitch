@@ -27,4 +27,6 @@ router.get("/google/callback",
  * @access Private
  */
 router.get('/me', authenticateUser, getMe)
+
+
 export default router;

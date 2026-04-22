@@ -12,6 +12,7 @@ import leftimg from "../assets/leftSideimg.png"
 const Register = () => {
     const { handleRegister } = useAuth();
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
 
     const [formData, setFormData] = useState({
         fullName: '',
@@ -21,13 +22,49 @@ const Register = () => {
         isSeller: false
     });
 
+
+
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+
+        const error = validate(name, value);
+
+        setErrors(prev => ({
+            ...prev,
+            [name]: error
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const newErrors = {};
+
+        // Validate all fields
+        if (!formData.fullName || formData.fullName.length < 3) {
+            newErrors.fullName = "Minimum 3 characters required";
+        }
+
+        if (!/^\d{10}$/.test(formData.contactNumber)) {
+            newErrors.contactNumber = "Enter valid 10 digit number";
+        }
+
+        if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            newErrors.email = "Invalid email";
+        }
+
+        if (formData.password.length < 6) {
+            newErrors.password = "Minimum 6 characters";
+        }
+
+        // Set errors
+        setErrors(newErrors);
+
+        //  STOP if errors exist
+        if (Object.keys(newErrors).length > 0) return;
+
         await handleRegister({
             email: formData.email,
             contactNumber: formData.contactNumber,
@@ -156,6 +193,7 @@ const Register = () => {
                                     onFocus={handleFocus}
                                     onBlur={handleBlur}
                                 />
+                                {errors.fullName && <p className="text-red-500 text-xs">{errors.fullName}</p>}
                             </div>
 
                             {/* Contact Number */}
@@ -169,17 +207,29 @@ const Register = () => {
                                 </label>
                                 <input
                                     id="reg-contact"
-                                    type="tel"
+                                    type="text"
+                                    inputMode="numeric"
+                                    pattern="[0-9]*"
                                     name="contactNumber"
                                     value={formData.contactNumber}
-                                    onChange={handleChange}
+                                    onChange={(e) => {
+                                        const value = e.target.value.replace(/\D/g, ""); // only digits
+                                        handleChange({
+                                            target: {
+                                                name: "contactNumber",
+                                                value
+                                            }
+                                        });
+                                    }}
                                     required
-                                    placeholder="+91 98765 43210"
+                                    placeholder="Enter 10 Digit Number"
                                     className="w-full bg-transparent outline-none py-3 text-sm transition-colors duration-300"
                                     style={inputStyle}
+                                    maxLength={10}
                                     onFocus={handleFocus}
                                     onBlur={handleBlur}
                                 />
+                                {errors.contactNumber && <p className="text-red-500 text-xs">{errors.contactNumber}</p>}
                             </div>
 
                             {/* Email */}
@@ -204,6 +254,11 @@ const Register = () => {
                                     onFocus={handleFocus}
                                     onBlur={handleBlur}
                                 />
+                                {errors.email && (
+                                    <p className="text-red-500 text-xs">
+                                        {errors.email}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Password */}
@@ -228,6 +283,7 @@ const Register = () => {
                                     onFocus={handleFocus}
                                     onBlur={handleBlur}
                                 />
+                                {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
                             </div>
 
                             {/* Register as Seller — minimal checkbox */}
