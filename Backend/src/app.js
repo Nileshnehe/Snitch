@@ -5,9 +5,9 @@ import authRouter from "./routes/auth.routes.js"
 import productRouter from "./routes/product.routes.js"
 import cartRouter from "./routes/cart.routes.js"
 import passport from "passport"
-import {Strategy as GoogleStrategy} from "passport-google-oauth20"
+import { Strategy as GoogleStrategy } from "passport-google-oauth20"
 import { config } from "./config/config.js"
-
+import cors from "cors"
 
 const app = express();
 
@@ -15,7 +15,12 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+app.use(cors({
+    origin: [
+        "https://snitch-pink.vercel.app"
+    ],
+    credentials: true
+}));
 
 app.use(passport.initialize());
 
