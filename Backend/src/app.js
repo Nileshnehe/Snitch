@@ -19,6 +19,7 @@ app.use(cors({
     origin: [
         "https://snitch-pink.vercel.app"
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 
