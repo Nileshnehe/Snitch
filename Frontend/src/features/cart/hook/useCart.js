@@ -9,8 +9,11 @@ export const useCart = () => {
     async function handleAddItem({ productId, variantId }) {
 
         const data = await addItem({ productId, variantId })
+
         return data
     }
+
+
 
     async function handleGetCart() {
         const data = await getCart()

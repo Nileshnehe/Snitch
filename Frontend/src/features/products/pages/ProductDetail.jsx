@@ -12,8 +12,10 @@ const ProductDetail = () => {
     const navigate = useNavigate();
     const { handleGetProductById } = useProduct();
     const { handleAddItem } = useCart();
+    const [showPopup, setShowPopup] = useState(false)
 
 
+    
 
     async function fetchProductDetails() {
         try {
@@ -287,10 +289,16 @@ const ProductDetail = () => {
                                             variantId: activeVariant?._id
                                         })
                                     }}
+
+
                                 >
                                     Add to Cart
                                 </button>
-
+                                {showPopup && (
+                                    <div className="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg z-50">
+                                        Item added to cart ✅
+                                    </div>
+                                )}
                                 <button
                                     className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-all duration-300 border"
                                     style={{
