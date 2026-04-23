@@ -1,9 +1,8 @@
 import axios from "axios"
 import { data } from "react-router"
 
-
 const productApiInstance = axios.create({
-    baseURL: "https://snitch-wr2l.onrender.com/api/products",
+    baseURL: `${import.meta.env.VITE_API_URL}/api/products`,
     withCredentials: true
 })
 

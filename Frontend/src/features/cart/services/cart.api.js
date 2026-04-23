@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const cartApiInstance = axios.create({
-    baseURL: "https://snitch-wr2l.onrender.com/api/cart",
+    baseURL: `${import.meta.env.VITE_API_URL}/api/cart`,
     withCredentials: true
 })
 

@@ -1,15 +1,14 @@
 import axios from "axios";
 
 const authApiInstance = axios.create({
-    baseURL: "https://snitch-wr2l.onrender.com/api/auth",
+    baseURL: `${import.meta.env.VITE_API_URL}/api/auth`,
     withCredentials: true,
-})
-
+});
 
 export async function register({ email, contactNumber, password, fullName, isSeller }) {
 
-    console.log("Sending:", { email, contactNumber, password, fullName, isSeller }) 
-    
+    console.log("Sending:", { email, contactNumber, password, fullName, isSeller })
+
 
     const response = await authApiInstance.post("/register", {
         email,
