@@ -3,7 +3,7 @@ import { data } from "react-router"
 
 
 const productApiInstance = axios.create({
-    baseURL: "/api/products",
+    baseURL: "https://snitch-wr2l.onrender.com/api/products",
     withCredentials: true
 })
 
