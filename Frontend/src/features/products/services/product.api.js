@@ -3,7 +3,8 @@ import { data } from "react-router"
 
 const productApiInstance = axios.create({
     baseURL: `${import.meta.env.VITE_API_URL}/api/products`,
-    withCredentials: true
+    withCredentials: true,
+    
 })
 
 

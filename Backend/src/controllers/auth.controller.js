@@ -104,9 +104,16 @@ export const googleCallback = async (req, res) => {
         expiresIn: "7d"
     })
 
-    res.cookie("token", token)
+    // res.cookie("token", token)
 
-    res.redirect("http://localhost:5173/")
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    res.redirect(process.env.CLIENT_URL || "http://localhost:5173/")
 }
 
 
