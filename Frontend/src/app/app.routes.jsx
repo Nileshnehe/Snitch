@@ -8,14 +8,11 @@ import Home from "../features/products/pages/Home"
 import ProductDetail from "../features/products/pages/ProductDetail"
 import SellerProductDetail from "../features/products/pages/SellerProductDetail"
 import Cart from "../features/cart/pages/Cart"
-
+import AppLayout from "./AppLayout"
 
 
 export const routes = createBrowserRouter([
-    {
-        path: "/",
-        element: <Home />
-    },
+    
     {
         path: '/register',
         element: <Register />
@@ -23,6 +20,13 @@ export const routes = createBrowserRouter([
     {
         path: '/login',
         element: <Login />
+    },
+    
+    {   element: <AppLayout />,
+        children: [
+            {
+        path: "/",
+        element: <Home />
     },
     {
         path: '/product/:productId',
@@ -54,6 +58,8 @@ export const routes = createBrowserRouter([
                     <SellerProductDetail />
                 </Protected>
             }
+        ]
+    }
         ]
     }
 ])

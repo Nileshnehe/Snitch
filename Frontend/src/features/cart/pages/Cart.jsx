@@ -36,42 +36,9 @@ const getDisplayImage = (product, variant) => {
 }
 
 /* ─── Shared Nav ─────────────────────────────────────────────────────────────── */
-const Nav = ({ cartCount = 0 }) => {
-    const navigate = useNavigate()
-    return (
-        <nav
-            className="px-8 lg:px-16 xl:px-24 pt-8 pb-6 flex items-center justify-between"
-            style={{ borderBottom: `1px solid ${tokens.surfaceHighest}` }}
-        >
-            <Link
-                to="/"
-                className="text-xl font-light tracking-[0.35em] uppercase hover:opacity-70 transition-opacity"
-                style={{ fontFamily: "'Cormorant Garamond', serif", color: tokens.primary }}
-            >
-                Snitch.
-            </Link>
-
-            <div className="flex items-center gap-6">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="text-[10px] uppercase tracking-[0.22em] font-medium transition-opacity hover:opacity-60"
-                    style={{ color: tokens.secondary }}
-                >
-                    Return to Archive
-                </button>
-
-                {cartCount > 0 && (
-                    <span
-                        className="flex items-center justify-center w-6 h-6 rounded-full text-[10px] font-semibold"
-                        style={{ backgroundColor: tokens.primary, color: '#fff' }}
-                    >
-                        {cartCount}
-                    </span>
-                )}
-            </div>
-        </nav>
-    )
-}
+// const Nav = ({ cartCount = 0 }) => {
+   
+// }
 
 /* ─── Single Cart Row ────────────────────────────────────────────────────────── */
 const CartRow = ({ item, qty, onIncrease, onDecrease, onRemove }) => {
@@ -267,7 +234,7 @@ const Cart = () => {
             <>
                 <FontLink />
                 <div className="min-h-screen flex flex-col" style={{ backgroundColor: tokens.surface, fontFamily: "'Inter', sans-serif" }}>
-                    <Nav cartCount={0} />
+                    
                     <div className="flex-1 flex flex-col items-center justify-center gap-6 pb-24 px-8 text-center">
                         <p
                             className="font-light leading-tight"
@@ -311,7 +278,7 @@ const Cart = () => {
                 className="min-h-screen pb-24 selection:bg-[#C9A96E]/30"
                 style={{ backgroundColor: tokens.surface, fontFamily: "'Inter', sans-serif" }}
             >
-                <Nav cartCount={totalPieces} />
+                
 
                 <div className="max-w-7xl mx-auto px-8 lg:px-16 xl:px-24 pt-12 lg:pt-20">
                     <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
