@@ -18,7 +18,8 @@ app.use(cookieParser());
 app.use(cors({
     origin: [
         "https://snitch-pink.vercel.app",
-        "http://localhost:5173"
+        "http://localhost:5173",
+        "http://localhost:5173/"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true

@@ -5,7 +5,7 @@ const cartApiInstance = axios.create({
     baseURL: `${import.meta.env.VITE_API_URL}/api/cart`,
     withCredentials: true,
 })
-
+ 
 export const addItem = async ({ productId, variantId }) => {
 
     let url = `/add/${productId}`
@@ -27,10 +27,11 @@ export const getCart = async () => {
 }
 
 export const incrementCartItemApi = async ({ productId, variantId }) => {
-    let url = `/quantity/increment/${productId}`
-
-    if (variantId) {
-        url += `/S{variantId}`
-    }
-    return response.data
+    let url = `/quantity/increment/${productId}/${variantId}`
+    const response = await cartApiInstance.patch(url)
+    
+    // if (variantId) {
+    //     url += `/${variantId}`
+    // }
+ return response.data
 }

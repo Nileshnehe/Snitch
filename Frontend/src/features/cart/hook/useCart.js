@@ -12,7 +12,7 @@ export const useCart = () => {
   async function handleAddItem({ productId, variantId }) {
     const data = await addItem({ productId, variantId });
 
-    // Redux state update missing tha
+    
     dispatch(addItemToCart(data.item || { productId, variantId, quantity: 1 }));
 
     return data;

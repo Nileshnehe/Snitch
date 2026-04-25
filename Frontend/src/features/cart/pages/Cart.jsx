@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useCart} from '../hook/useCart'
+import { useCart } from '../hook/useCart'
 import { Link, useNavigate } from 'react-router'
 
 /* ─── Design tokens ─────────────────────────────────────────────────────────── */
@@ -37,9 +37,9 @@ const getDisplayImage = (product, variant) => {
 
 /* ─── Shared Nav ─────────────────────────────────────────────────────────────── */
 // const Nav = ({ cartCount = 0 }) => {
-   
-// }
 
+// }
+// console.log(handleIncrementCartItem)
 /* ─── Single Cart Row ────────────────────────────────────────────────────────── */
 const CartRow = ({ item, qty, onIncrease, onDecrease, onRemove }) => {
     const { product, variant: variantId, price } = item
@@ -143,7 +143,9 @@ const CartRow = ({ item, qty, onIncrease, onDecrease, onRemove }) => {
                                 {qty}
                             </span>
                             <button
-                                onClick={() => handleIncrementCartItem()}
+
+                                onClick={() =>onIncrease()}
+
                                 className="w-9 h-9 flex items-center justify-center text-sm transition-opacity hover:opacity-50"
                                 style={{ color: tokens.onSurface, borderLeft: `1px solid ${tokens.outlineVariant}` }}
                                 aria-label="Increase quantity"
@@ -180,7 +182,7 @@ const Cart = () => {
 
     const [quantities, setQuantities] = useState({})
     const [removed, setRemoved] = useState(new Set())
-
+    
     useEffect(() => {
         handleGetCart()
     }, [])
@@ -234,7 +236,7 @@ const Cart = () => {
             <>
                 <FontLink />
                 <div className="min-h-screen flex flex-col" style={{ backgroundColor: tokens.surface, fontFamily: "'Inter', sans-serif" }}>
-                    
+
                     <div className="flex-1 flex flex-col items-center justify-center gap-6 pb-24 px-8 text-center">
                         <p
                             className="font-light leading-tight"
@@ -278,7 +280,7 @@ const Cart = () => {
                 className="min-h-screen pb-24 selection:bg-[#C9A96E]/30"
                 style={{ backgroundColor: tokens.surface, fontFamily: "'Inter', sans-serif" }}
             >
-                
+
 
                 <div className="max-w-7xl mx-auto px-8 lg:px-16 xl:px-24 pt-12 lg:pt-20">
                     <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
