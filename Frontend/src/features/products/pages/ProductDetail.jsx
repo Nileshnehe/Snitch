@@ -13,9 +13,9 @@ const ProductDetail = () => {
     const { handleGetProductById } = useProduct();
     const { handleAddItem } = useCart();
     const [showPopup, setShowPopup] = useState(false)
+    const [cartPopupItem, setCartPopupItem] = useState(null)
 
 
-    
 
     async function fetchProductDetails() {
         try {
@@ -127,7 +127,7 @@ const ProductDetail = () => {
                 className="min-h-screen selection:bg-[#C9A96E]/30 pb-24"
                 style={{ backgroundColor: '#fbf9f6', fontFamily: "'Inter', sans-serif" }}
             >
-              
+
 
                 <div className="max-w-7xl mx-auto px-8 lg:px-16 xl:px-24 pt-12 lg:pt-20">
                     <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start">
@@ -272,16 +272,52 @@ const ProductDetail = () => {
                                         handleAddItem({
                                             productId: product?._id,
                                             variantId: activeVariant?._id
-                                        })
+                                        });
+                                        setCartPopupItem({
+                                            image: product?.images?.[0]?.url,   // apne image field ke hisaab se adjust karo
+                                            name: product?.name,
+                                            price: activeVariant?.price || product?.price,
+                                            colour: activeVariant?.color,
+                                            size: activeVariant?.size,
+                                            quantity: 1
+                                        });
+                                        setShowPopup(true);
+                                        setTimeout(() => setShowPopup(false), 3000);
                                     }}
 
 
                                 >
                                     Add to Cart
                                 </button>
-                                {showPopup && (
-                                    <div className="fixed top-5 right-5 bg-green-600 text-white px-4 py-2 rounded shadow-lg z-50">
-                                        Item added to cart ✅
+                                {showPopup && cartPopupItem && (
+                                    <div className="fixed top-5 right-5 z-50 bg-white shadow-xl border border-gray-200 rounded-lg p-4 flex gap-4 w-[340px]">
+                                        {/* Close Button */}
+                                        <button
+                                            className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-lg"
+                                            onClick={() => setShowPopup(false)}
+                                        >
+                                            ×
+                                        </button>
+
+                                        {/* Product Image */}
+                                        <img
+                                            src={cartPopupItem.image}
+                                            alt={cartPopupItem.name}
+                                            className="w-20 h-24 object-cover rounded"
+                                        />
+
+                                        {/* Product Info */}
+                                        <div className="flex flex-col justify-center gap-1 text-[#1b1c1a]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                                            <p className="text-[11px] uppercase tracking-widest font-semibold">
+                                                {cartPopupItem.name}
+                                            </p>
+                                            <p className="text-[13px] font-medium">
+                                                Rs. {cartPopupItem.price?.toLocaleString('en-IN')}.00
+                                            </p>
+                                            <p className="text-[11px] text-gray-500">Colour &nbsp;&nbsp; {cartPopupItem.colour}</p>
+                                            <p className="text-[11px] text-gray-500">Size &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {cartPopupItem.size}</p>
+                                            <p className="text-[11px] text-gray-500">Quantity &nbsp;{cartPopupItem.quantity}</p>
+                                        </div>
                                     </div>
                                 )}
                                 <button

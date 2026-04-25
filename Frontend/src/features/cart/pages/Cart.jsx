@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { useCart } from '../hook/useCart'
+import { useCart} from '../hook/useCart'
 import { Link, useNavigate } from 'react-router'
 
 /* ─── Design tokens ─────────────────────────────────────────────────────────── */
@@ -143,7 +143,7 @@ const CartRow = ({ item, qty, onIncrease, onDecrease, onRemove }) => {
                                 {qty}
                             </span>
                             <button
-                                onClick={onIncrease}
+                                onClick={() => handleIncrementCartItem()}
                                 className="w-9 h-9 flex items-center justify-center text-sm transition-opacity hover:opacity-50"
                                 style={{ color: tokens.onSurface, borderLeft: `1px solid ${tokens.outlineVariant}` }}
                                 aria-label="Increase quantity"

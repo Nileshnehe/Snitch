@@ -25,3 +25,12 @@ export const getCart = async () => {
     const response = await cartApiInstance.get("/", { withCredentials: true })
     return response.data
 }
+
+export const incrementCartItemApi = async ({ productId, variantId }) => {
+    let url = `/quantity/increment/${productId}`
+
+    if (variantId) {
+        url += `/S{variantId}`
+    }
+    return response.data
+}
