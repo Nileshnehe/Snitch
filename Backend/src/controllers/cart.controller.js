@@ -1,6 +1,7 @@
 import cartModel from "../models/cart.model.js";
 import productModel from "../models/product.model.js";
 import { stockOfVariant } from "../dao/product.dao.js";
+import { response } from "express";
 
 
 export const addToCart = async (req, res) => {
@@ -110,7 +111,7 @@ export const getCart = async (req, res) => {
 }
 
 export const incrementCartItemQuantity = async (req, res) => {
-    const { productId, variantId } = body.params
+    const { productId, variantId } = req.params
 
     const product = await productModel.findOne({
         _id: productId,
@@ -124,6 +125,12 @@ export const incrementCartItemQuantity = async (req, res) => {
         })
     }
     const stock = await stockOfVariant(productId, variantId)
+
+    const cart = await cartModel.findOne({ user: req.user._id })
+
+    if (!cart) {
+        return res.status(404).json({ message: "Cart not found", success: false })
+    }
 
     const itemQuantityInCart = cart.items.find(item => item.product.toString() === productId && item.variant?.toString() === variantId)?.quantity || 0
 

@@ -33,7 +33,8 @@ router.get("/", authenticateUser, getCart)
  * @argument productId - ID of the product to update
  * @argument variantId - ID of the variant to update
  */
-router.patch("/increment/quantity/:productId/:variantId", authenticateUser,validateIncrementCartItemQuantity, incrementCartItemQuantity)
+router.patch("/quantity/increment/:productId", authenticateUser, validateIncrementCartItemQuantity, incrementCartItemQuantity)
+router.patch("/quantity/increment/:productId/:variantId", authenticateUser, validateIncrementCartItemQuantity, incrementCartItemQuantity)
 
 
 export default router
