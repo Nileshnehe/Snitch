@@ -113,16 +113,24 @@ export const getCart = async (req, res) => {
 export const incrementCartItemQuantity = async (req, res) => {
     const { productId, variantId } = req.params
 
-    const product = await productModel.findOne({
-        _id: productId,
-        "variant._id": variantId
-    })
+    const product = await productModel.findOne({ _id: productId })
 
     if (!product) {
         return res.status(404).json({
-            message: "Product Variant not found",
+            message: "Product not found",
             success: false
         })
+    }
+
+    // Variant check sirf tab karo jab variantId ho
+    if (variantId) {
+        const variantExists = product.variants?.find(v => v._id.toString() === variantId)
+        if (!variantExists) {
+            return res.status(404).json({
+                message: "Product Variant not found",
+                success: false
+            })
+        }
     }
     const stock = await stockOfVariant(productId, variantId)
 
@@ -141,16 +149,35 @@ export const incrementCartItemQuantity = async (req, res) => {
         })
     }
 
-    await cartModel.findOneAndUpdate(
-        { user: req.user._id, "items.product": productId, "items.variant": variantId },
+
+
+    const filter = variantId
+        ? { user: req.user._id, "items.product": productId, "items.variant": variantId }
+        : { user: req.user._id, "items.product": productId, "items.variant": null }
+
+    console.log("Filter:", {
+        user: req.user._id,
+        "items.product": productId,
+        "items.variant": variantId
+    })
+
+    const updated = await cartModel.findOneAndUpdate(
+        filter,
         { $inc: { "items.$.quantity": 1 } },
         { new: true }
     )
+
+    // console.log("Updated cart:", updated)
+
+    console.log("req.params:", req.params)
+    console.log("productId:", productId, "variantId:", variantId)
 
     return res.status(200).json({
         message: "Cart item quantity incremented successfully",
         success: true
     })
+
+
 }
 
 
