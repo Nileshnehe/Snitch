@@ -19,8 +19,8 @@ const cartSlice = createSlice({
             state.items = state.items.map(item => {
                 const productMatch = item.product._id === productId;
                 const variantMatch = variantId
-                    ? item.variant?._id === variantId  
-                    : !item.variant;                    
+                    ? item.variant?.toString() === variantId.toString()  
+                    : !item.variant || item.variant === null;                    
 
                 if (productMatch && variantMatch) {
                     return { ...item, quantity: item.quantity + 1 }

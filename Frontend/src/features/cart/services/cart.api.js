@@ -28,8 +28,10 @@ export const incrementCartItemApi = async ({ productId, variantId }) => {
     if (variantId) {
         url += `/${variantId}`
     }
+    console.log("URL:", url)
     const response = await cartApiInstance.patch(url)
     return response.data
+    
 }
 
 

@@ -7,6 +7,9 @@ import CartRow from './CartRow'
 import CartSummary from './CartSummary'
 import CartEmpty from './CartEmpty'
 import FontLink from './FontLink'
+import { useCallback } from 'react'
+import debounce from "lodash/debounce"
+
 
 const FREE_SHIPPING_THRESHOLD = 15000
 
@@ -20,12 +23,24 @@ const Cart = () => {
 
     // ✅ FIX: Use Redux state directly — no local quantity state needed
     // Local state caused refresh bug (quantities reset on reload)
-    const increase = (item) => {
+    // const increase = (item) => {
+    //     // console.log("item.variant:", item.variant)
+    //     console.log("item.variant:", item.variant)
+    //     handleIncrementCartItem?.({
+    //         productId: item.product._id,
+    //         variantId: item.variant
+    //     })
+    // }
+
+    const increase = useCallback(
+    debounce((item) => {
         handleIncrementCartItem?.({
             productId: item.product._id,
-            variantId: item.variant?._id
+            variantId: item.variant
         })
-    }
+    }, 500),
+    []
+)
 
     const decrease = (item) => {
         handleDecrementCartItem?.({

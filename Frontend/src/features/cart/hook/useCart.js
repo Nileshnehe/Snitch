@@ -29,7 +29,7 @@ export const useCart = () => {
   }
 
   async function handleIncrementCartItem({ productId, variantId }) {
-
+    console.log("hook mein:", productId, variantId)
     try {
       await incrementCartItemApi({ productId, variantId });
       dispatch(incrementCartItem({ productId, variantId }));
