@@ -10,23 +10,32 @@ export const useCart = () => {
   const dispatch = useDispatch();
 
   async function handleAddItem({ productId, variantId }) {
-    const data = await addItem({ productId, variantId });
-
-    
-    dispatch(addItemToCart(data.item || { productId, variantId, quantity: 1 }));
-
-    return data;
+    try {
+      const data = await addItem({ productId, variantId });
+      dispatch(addItemToCart(data.item || { productId, variantId, quantity: 1 }));
+      return data;
+    } catch (error) {
+      console.error("Failed to add item:", error);
+    }
   }
 
   async function handleGetCart() {
-    const data = await getCart();
-    dispatch(setItems(data.cart.items));
+    try {
+      const data = await getCart();
+      dispatch(setItems(data.cart.items));
+    } catch (error) {
+      console.error("Failed to fetch cart:", error)
+    }
   }
 
   async function handleIncrementCartItem({ productId, variantId }) {
-    await incrementCartItemApi({ productId, variantId });
 
-    dispatch(incrementCartItem({ productId, variantId }));
+    try {
+      await incrementCartItemApi({ productId, variantId });
+      dispatch(incrementCartItem({ productId, variantId }));
+    } catch (error) {
+      console.error("Failed to increment cart item:", error)
+    }
   }
 
   return {
